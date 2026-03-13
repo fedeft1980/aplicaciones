@@ -11,18 +11,31 @@ body{
 font-family: Arial;
 background:#0b1020;
 color:white;
-display:flex;
-justify-content:center;
 margin:0;
 }
 
-.container{
+.section{
 max-width:1400px;
-width:100%;
+margin:auto;
+padding:30px;
+}
+
+.titulo{
+text-align:center;
+margin-bottom:30px;
+}
+
+.titulo img{
+width:80px;
+display:block;
+margin:auto;
+margin-bottom:10px;
+}
+
+.container{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-padding:30px;
 }
 
 .app{
@@ -53,81 +66,121 @@ font-weight:bold;
 
 <body>
 
-<div class="container">
+<!-- ANDROID -->
+<div class="section">
 
-<div class="app">
-<b>📺 En TV Android</b><br><br>
-
-1) Abrir Google Play Store en la TV.<br><br>
-
-2) En la lupa buscar <b>Downloader</b>.  
-Es una app naranja con una D y una flecha hacia abajo.<br><br>
-
-3) Instalar la aplicación.<br><br>
-
-4) Abrir Downloader y permitir todo.<br><br>
-
-5) Ingresar el código de la app elegida y presionar <b>GO</b>.<br><br>
-
-6) Esperar la descarga y luego presionar <b>Install</b>.
+<div class="titulo">
+<img src="img/android.jpg">
+<h2>Android TV</h2>
 </div>
 
+<div class="container">
 
 <div class="app">
 <h3>Vertex TV</h3>
 
 Código Downloader<br>
-
 <div class="codigo">5353623</div><br>
-
-Dirección<br>
-
 <div class="codigo">aftv.news/5353623</div><br>
 
-PIN Adultos: 2808
+3 dispositivos<br>
+Tv en vivo<br>
+Series on demand y canales Premium
+<br>
+Peliculas<br>
 </div>
-
 
 <div class="app">
 <h3>NEBULA</h3>
 
 Código Downloader<br>
-
-<div class="codigo">8288581</div><br>
-
-o<br>
+<div class="codigo">8288581</div>
 
 <div class="codigo">aftv.news/8288581</div><br>
+3 dispositivos<br>
+Tv en vivo<br>
+Series on demand y canales Premium
+<br>
+Peliculas<br>
 
-PIN Adultos: 7658
 </div>
-
 
 <div class="app">
 <h3>Mundo Infinito</h3>
 
 Código Downloader<br>
-
 <div class="codigo">8279499</div><br>
-
 <div class="codigo">bit.ly/4peeWda</div><br>
+3 dispositivos<br>
+Tv en vivo<br>
+Series on demand y canales Premium
+<br>
+Peliculas<br>
 
-PIN Adultos: 6904
+
 </div>
-
 
 <div class="app">
 <h3>Tv Online Plus</h3>
 
 Código Downloader<br>
-
 <div class="codigo">959332</div><br>
 
 <div class="codigo">go.aftvnews.com/959332</div><br>
+3 dispositivos<br>
+Tv en vivo<br>
+Series on demand y canales Premium
+<br>
+Peliculas<br>
 
-PIN Adultos: 6969
+
 </div>
 
+</div>
+</div>
+
+
+<!-- ROKU -->
+<div class="section">
+
+<div class="titulo">
+<img src="img/roku.png">
+<h2>Roku</h2>
+</div>
+
+<div class="container">
+
+<div class="app">
+<h3>Instalación Roku</h3>
+
+1) Ir a **Streaming Channels**<br><br>
+2) Buscar la app del servicio<br><br>
+3) Instalar desde la tienda Roku
+</div>
+
+</div>
+</div>
+
+
+<!-- SMART TV -->
+<div class="section">
+
+<div class="titulo">
+<img src="img/smarttv.png">
+<h2>Smart TV</h2>
+</div>
+
+<div class="container">
+
+<div class="app">
+<h3>Instalación Smart TV</h3>
+
+1) Abrir **App Store de la TV**<br><br>
+2) Buscar la aplicación<br><br>
+3) Instalar y abrir
+</div>
+
+</div>
 </div>
 
 </body>
