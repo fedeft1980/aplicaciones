@@ -1,191 +1,488 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descargar Apps</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargas - Instalación de Apps</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --gradient-text: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-<style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body{
-font-family: Arial;
-background:#0b1020;
-color:white;
-margin:0;
-}
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-/* SECCIONES */
-.section{
-max-width:1200px;
-margin:auto;
-padding:40px 20px;
-}
+        /* Ambient glowing background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-/* TITULOS + ICONOS */
-.titulo{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:20px;
-text-align:center;
-}
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-.titulo img{
-width:80px;
-height:auto;
-}
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
 
-/* GRID */
-.container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
 
-/* TARJETAS */
-.app{
-background:#111a35;
-padding:20px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-line-height:1.6;
-}
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-.app img{
-width:100%;
-max-width:500px;
-height:auto;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 60px 0 30px;
+            position: relative;
+        }
+
+        .section-title img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            background: var(--card-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+
+        .code-group {
+            margin-bottom: 20px;
+        }
+
+        .code-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .code-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #60a5fa;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .code-box.link {
+            font-size: 0.95rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-badge {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 6px 14px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .demo-badge::before {
+            content: '⏱';
+            font-size: 1rem;
+        }
+
+        .features {
+            list-style: none;
+            margin-top: auto;
+            border-top: 1px dashed var(--card-border);
+            padding-top: 20px;
+        }
+
+        .features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .features li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: 800;
+        }
+
+        /* Step instructions */
+        .step-list {
+            list-style: none;
+            counter-reset: steps;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .step-list li strong {
+            color: #fff;
+        }
+
+        .step-list li::before {
+            counter-increment: steps;
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 28px;
+            height: 28px;
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Specific section tweaks */
+        #android .card h3::before {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        #roku .card h3::before {
+            background: #8b5cf6;
+            box-shadow: 0 0 10px #8b5cf6;
+        }
+
+        #smarttv .card h3::before {
+            background: #f59e0b;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 15px 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .header-img{
 display:block;
-margin:20px auto;
-border-radius:10px;
-}
-
-.app h3{
-margin-top:0;
-}
-
-/* CODIGOS */
-.codigo{
-background:#0a3cff;
-padding:6px 12px;
-border-radius:6px;
-display:inline-block;
-margin:6px 0;
-font-weight:bold;
-}
-
-.demo{
-background:#ff0a27;
-padding:6px 12px;
-border-radius:6px;
-display:inline-block;
-margin:6px 0;
-font-weight:bold;
-}
-
-h2{
+margin:30px auto 0;
+max-width:500px;
 width:100%;
-text-align:center;
+height:auto;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
-
-</style>
+    </style>
 </head>
 
 <body>
 
-<!-- IMAGEN PRINCIPAL -->
-<div class="section">
-  <div class="app">
-    <img src="inst.png">
-  </div>
-</div>
+    <header>
+        <h1>Instalación de Apps</h1>
+        <p>Seleccioná tu dispositivo y seguí las instrucciones para descargar nuestras aplicaciones premium de forma
+            segura y rápida.</p>
+            <img src="img/inst.png" class="header-img">
+    </header>
 
-<!-- ANDROID -->
-<div class="section">
+    <div class="container">
 
-  <div class="titulo">
-    <img src="android.jpg">
-    <h2>Android TV</h2>
-  </div>
+        <!-- ANDROID TV -->
+        <div id="android" class="section">
+            <div class="section-title">
+                <h2>📺 Android TV & Fire TV</h2>
+            </div>
 
-  <div class="container">
+            <div class="grid">
+                <!-- Vertex TV -->
+                <div class="card">
+                    <h3>Vertex TV</h3>
+                    <div class="code-group">
+                        <div class="code-label">Código Downloader</div>
+                        <div class="code-box">5353623</div>
+                        <div class="code-box link">aftv.news/5353623</div>
+                    </div>
+                    <ul class="features">
+                        <li>3 dispositivos permitidos</li>
+                        <li>TV en vivo (Deportes, Noticias, etc)</li>
+                        <li>Series on demand y canales Premium</li>
+                        <li>Películas catálogo completo</li>
+                    </ul>
+                </div>
 
-    <div class="app">
-      <h3>Vertex TV</h3>
-      Código Downloader<br>
-      <div class="codigo">5353623</div>
-      <div class="codigo">aftv.news/5353623</div>
-      <br>3 dispositivos<br>Tv en vivo<br>Series y películas
+                <!-- NEBULA -->
+                <div class="card">
+                    <h3>NEBULA</h3>
+                    <div class="code-group">
+                        <div class="code-label">Código Downloader</div>
+                        <div class="code-box">8288581</div>
+                        <div class="code-box link">aftv.news/8288581</div>
+                    </div>
+                    <div class="demo-badge">Podés probarlo 1 hora gratis</div>
+                    <ul class="features">
+                        <li>3 dispositivos permitidos</li>
+                        <li>TV en vivo fluida</li>
+                        <li>Series on demand y canales Premium</li>
+                        <li>Películas catálogo completo</li>
+                    </ul>
+                </div>
+
+                <!-- Mundo Infinito -->
+                <div class="card">
+                    <h3>Mundo Infinito</h3>
+                    <div class="code-group">
+                        <div class="code-label">Código Downloader</div>
+                        <div class="code-box">8279499</div>
+                        <div class="code-box link">bit.ly/4peeWda</div>
+                    </div>
+                    <div class="demo-badge">Podés probarlo 1 hora gratis</div>
+                    <ul class="features">
+                        <li>3 dispositivos permitidos</li>
+                        <li>TV en vivo</li>
+                        <li>Series on demand y canales Premium</li>
+                        <li>Películas catálogo completo</li>
+                    </ul>
+                </div>
+
+                <!-- Tv Online Plus -->
+                <div class="card">
+                    <h3>TV Online Plus</h3>
+                    <div class="code-group">
+                        <div class="code-label">Código Downloader</div>
+                        <div class="code-box">959332</div>
+                        <div class="code-box link">go.aftvnews.com/959332</div>
+                    </div>
+                    <div class="demo-badge">Podés probarlo 1 hora gratis</div>
+                    <ul class="features">
+                        <li>3 dispositivos permitidos</li>
+                        <li>TV en vivo</li>
+                        <li>Series on demand y canales Premium</li>
+                        <li>Películas catálogo completo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROKU -->
+        <div id="roku" class="section">
+            <div class="section-title">
+                <h2>🟣 Dispositivos Roku</h2>
+            </div>
+
+            <div class="grid" style="grid-template-columns: minmax(280px, 600px); justify-content: center;">
+                <div class="card">
+                    <h3>Instalación en Roku</h3>
+                    <ul class="step-list">
+                        <li>Dirigite al menú de tu Roku y seleccioná <strong>Streaming Channels</strong> (Canales de
+                            Streaming).</li>
+                        <li>Usá el buscador y escribí <strong>Tv Sin Limites</strong>.</li>
+                        <li>Seleccioná la aplicación y hacé clic en <strong>Agregar canal</strong> (Instalar desde la
+                            tienda Roku).</li>
+                    </ul>
+                    <ul class="features">
+                        <li>3 dispositivos simultáneos</li>
+                        <li>3.634 Canales en vivo</li>
+                        <li>42.807 Películas</li>
+                        <li>5.015 Series completas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMART TV -->
+        <div id="smarttv" class="section">
+            <div class="section-title">
+                <h2>🖥️ Smart TV y WebOS</h2>
+            </div>
+
+            <div class="grid" style="grid-template-columns: minmax(280px, 600px); justify-content: center;">
+                <div class="card">
+                    <h3>Instalación en Smart TV</h3>
+                    <ul class="step-list">
+                        <li>Encendé tu televisor y abrí el <strong>App Store</strong> (Tienda de aplicaciones) de tu TV.
+                        </li>
+                        <li>En el buscador, escribí <strong>IPTV SMARTERS</strong> o "Smarters Player Lite".</li>
+                        <li>Seleccioná la aplicación, dale a <strong>Instalar</strong> y luego de que descargue,
+                            <strong>Abrir</strong>.</li>
+                        <li>Ingresá los datos de acceso proporcionados.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <div class="app">
-      <h3>NEBULA</h3>
-      Código Downloader<br>
-      <div class="codigo">8288581</div>
-      <div class="codigo">aftv.news/8288581</div>
-      <div class="demo">Prueba 1 hora</div>
-      <br>3 dispositivos<br>Tv en vivo<br>Series y películas
-    </div>
-
-    <div class="app">
-      <h3>Mundo Infinito</h3>
-      Código Downloader<br>
-      <div class="codigo">8279499</div>
-      <div class="codigo">bit.ly/4peeWda</div>
-      <div class="demo">Prueba 1 hora</div>
-      <br>3 dispositivos<br>Tv en vivo<br>Series y películas
-    </div>
-
-    <div class="app">
-      <h3>Tv Online Plus</h3>
-      Código Downloader<br>
-      <div class="codigo">959332</div>
-      <div class="codigo">go.aftvnews.com/959332</div>
-      <div class="demo">Prueba 1 hora</div>
-      <br>3 dispositivos<br>Tv en vivo<br>Series y películas
-    </div>
-
-  </div>
-</div>
-
-<!-- DISPOSITIVOS -->
-<div class="section">
-
-  <div class="titulo">
-    <img src="roku.jpg">
-    <img src="smart.jpg">
-    <img src="iphone.png
-
-  <h2>Dispositivos</h2>
-
-  <div class="container">
-
-    <div class="app">
-      <h3>Roku</h3>
-      1) Ir a Streaming Channels<br>
-      2) Buscar "Tv Sin Limites"<br>
-      3) Instalar<br>
-    </div>
-
-    <div class="app">
-      <h3>Smart TV</h3>
-      1) Abrir App Store<br>
-      2) Buscar IPTV Smarters<br>
-      3) Instalar y abrir
-    </div>
-
-    <div class="app">
-      <h3>iPhone / Celular</h3>
-      1) Ir a App Store<br>
-      2) Descargar app compatible<br>
-      3) Ingresar datos
-    </div>
-
-  </div>
-</div>
 
 </body>
+
 </html>
